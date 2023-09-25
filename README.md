@@ -1,6 +1,6 @@
 # No7-System_Analysis_and_Design 
 ```
-    ** 成員名單 ** 
+  ** 第七組 - 成員名單 ** 
 
 C110118136 羅翊迪 - 組長
 
