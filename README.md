@@ -22,7 +22,7 @@ C110118131 吳家妤 - 組員
 
 
 ## 關鍵路徑
-
+2->3->4->6->9->11->15
 
 ## 甘特圖
 ![甘特圖](https://github.com/MAYUFANFG/No7-System_Analysis_and_Design/assets/142770990/a4860d1b-f68c-44cb-aea4-7fd8c17b6458)
