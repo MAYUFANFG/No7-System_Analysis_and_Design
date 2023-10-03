@@ -18,7 +18,8 @@ C110118131 吳家妤 - 組員
  因此，我們決定透過物聯網的概念，藉由聲波測量腿部肌肉。讓使用者可以快速的了解腿部肌肉的狀況，透過直觀易用的介面，讓年長者可以自我使用。而醫師或是家庭成員也能透過網路快速了解家中年長者腿部肌肉狀況，並提供或提醒年長者適度運動或健身，避免了因鄉村空洞化導致空有設備，卻無法測量與分散醫療量能，讓年長者母須前往醫院才能得知肌肉狀況。並降低社會醫療保險負擔。
 
 ## PERT圖
-![A-PERT](https://github.com/MAYUFANFG/No7-System_Analysis_and_Design/assets/145322555/e380d3af-7bf9-4e1d-9878-2dcf5d02523e)
+![A-PERT](https://github.com/MAYUFANFG/No7-System_Analysis_and_Design/assets/145322555/a9a435e4-a374-4cc5-9046-b618dfde7cce)
+
 
 ## 關鍵路徑
 
