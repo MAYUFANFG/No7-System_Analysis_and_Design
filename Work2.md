@@ -68,20 +68,6 @@ flowchart TD
 		使用者登入介面--> 測試結果管理-CRUD
 		使用者登入介面--> 帳號管理
 ```
-```mermaid
-
-graph TB
-a([點未登入畫面]) --> b(掃QRcode)
-b--> c{登入帳號密碼}
-c --fail--> a
-c -->|success|d(選擇受測者)
-d --> e(click start)
-e --> f{輔助受測指檢測} 
-f --> |否|g(可以隨時暫停)  
-f-->|是|h(收到end button)
-h --> i([end])
-
-```
 # 功能順序圖(WebUI)
 ### WebUI使用者登入：
 
