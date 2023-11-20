@@ -1,4 +1,79 @@
+# UML 類別圖
+
+```mermaid
+classDiagram
+    User "1" -- "0..*" edge : owns >
+    User "1" -- "0..*" file : owns >
+    User "1" -- "1" userFold : belongs to >
+    userFold "1" -- "0..*" User : contains >
+    file "1" -- "1" fileFold : belongs to >
+    fileFold "1" -- "0..*" file : contains >
+    edge "1" -- "1" edgeType : is of type >
+    edgeType "1" -- "0..*" edge : contains >
+    edge "1" -- "1" State : has >
+    file "1" -- "1" State : has >
+    User "1" -- "1" State : has >
+    edgeType "1" -- "1" State : has >
+    EdgeOwnersLink "1" -- "1" edge : links >
+    EdgeOwnersLink "1" -- "1" User : links >
+
+    class User{
+        +String userID
+        +String userName
+        +String userType
+        +State userState
+        +void SetType(String userFoldID)
+        +void SetState(String StateID)
+    }
+    class userFold{
+        +String userFoldID
+        +String userFoldName
+        +int PermissionsLevel
+    }
+    class State{
+        +String StateID
+        +String StateTitle
+        +String StateDetail
+    }
+    class edge{
+        +String edgeID
+        +String edgeName
+        +edgeType edgeType
+        +State edgeState
+        +void SetState(String StateID)
+    }
+    class edgeType{
+        +String edgeTypeID
+        +String edgeTypeTitle
+        +String edgeTypeDetail
+        +String edgeTypeBasicConfig
+        +void SetState(String StateID)
+        +void SetTypeBasicConfig(String fileFold)
+    }
+    class EdgeOwnersLink{
+        +String LinkID
+        +edge edgeID
+        +User userID
+        +void SetedgeID(String edgeID)
+        +void SetuserID(String userID)
+    }
+    class file{
+        +String fileID
+        +String fileName
+        +String fileType
+        +State fileState
+        +void SetState(String StateID)
+        +void SetType(String filefold)
+    }
+    class fileFold{
+        +String filefoldID
+        +String filefoldName
+        +Boolean IsLTSVersion()
+    }
+```
+
 # 功能順序圖(WebUI)
+
 ### WebUI使用者登入：
 
 ```mermaid
@@ -21,9 +96,23 @@ sequenceDiagram
 		Agent->> DB: 儲存使用者登入log
 ```
 
+```mermaid
+graph LR
+    A[開始] --> B[使用者登入]
+    B --> C[確認使用者帳號後登入]
+    C --> D[使用者資料請求]
+    D --> E[使用者資訊請求]
+    E --> F[回傳使用者資訊]
+    F --> G[回傳使用者資料]
+    G --> H[使用者主頁面]
+    H --> I[使用者登入log]
+    I --> J[儲存使用者登入log]
+    J --> K[結束]
+```
+
 ---
 
-### WebUI受測者page：
+WebUI受測者page：
 
 ```mermaid
 sequenceDiagram
@@ -39,6 +128,17 @@ sequenceDiagram
 		Agent->> DB: 受測者資訊請求(send user_id)
 		DB->> Agent: 回傳受測者資訊(send data)
 		Agent->> WebUI: 回傳受測者資料(send data)
+```
+
+```mermaid
+graph LR
+    A[開始] --> B[受測者頁面]
+    B --> C[受測者資料請求]
+    C --> D[受測者資訊請求]
+    D --> E[回傳受測者資訊]
+    E --> F[回傳受測者資料]
+    F --> G[結束]
+
 ```
 
 ---
@@ -66,7 +166,22 @@ sequenceDiagram
 		Agent->> DB: 確認已儲存新受測者資訊
 		DB->> Agent: 回傳新受測者資料
 		Agent->> WebUI:  回傳新受測者資料
-		WebUI->> UserPage:  /{{user_id}}/testee/{{testee_id}} [WebUI受測者page]			
+		WebUI->> UserPage:  /{{user_id}}/testee/{{testee_id}} [WebUI受測者page]
+```
+
+```mermaid
+graph LR
+    A[開始] --> B[WebUI受測者頁面]
+    B --> C[受測者頁面]
+    C --> D[使用者填寫新受測者資料]
+    D --> E[回傳新受測者資訊]
+    E --> F[儲存新受測者資訊]
+    F --> G[確認已儲存新受測者資訊]
+    G --> H[回傳新受測者資料]
+    H --> I[回傳新受測者資料]
+    I --> J[WebUI受測者頁面]
+    J --> K[結束]
+
 ```
 
 ---
@@ -90,6 +205,20 @@ sequenceDiagram
     DB->> Agent: 回傳使用者擁有的受測者
     Agent->> WebUI: 回傳使用者擁有的受測者+測試資料
     WebUI->> UserPage: /{{user_id}}/detail/all 渲染所有結果頁面
+```
+
+```mermaid
+graph LR
+    A[開始] --> B[進入查詢所有測試結果頁面]
+    B --> C[查詢使用者擁有的測試資料]
+    C --> D[查詢使用者擁有的測試資料]
+    D --> E[回傳使用者擁有的測試資料]
+    E --> F[查詢使用者擁有的受測者]
+    F --> G[回傳使用者擁有的受測者]
+    G --> H[回傳使用者擁有的受測者+測試資料]
+    H --> I[渲染所有結果頁面]
+    I --> J[結束]
+
 ```
 
 ---
@@ -116,140 +245,11 @@ sequenceDiagram
     WebUI->> UserPage: /{{user_id}}/detail/{{detail_id}} 渲染所有結果頁面
 ```
 
----
-
-### edgeGUI啟動：
-
 ```mermaid
-sequenceDiagram
-    participant UserPage
-    participant WebUI
-    participant Agent
-    participant DB
-    participant Analysis
-    participant FS
-		participant edgeGUI
-    edgeGUI->> edgeGUI:bootup 
-    edgeGUI->> FS:bootup notify
-    FS->> Agent:打包edge開機請求
-		Agent->> DB: 儲存edge上線狀態資訊
-		Agent->> DB: 打包edge需要讀取的config位置
-		Agent->> WebUI: edge上線 websocket通知
-		DB->> Agent: 回傳edge需要讀取的config位置
-		Agent->> FS: 回傳edge需要讀取的config位置
-		FS->> edgeGUI: 回傳edge需要讀取的config
-
+graph LR
+    A[點選測試結果] --> B[進入當前測試結果]
+    B --> C[查詢當前測試結果]
+    C --> D[查詢當前受測者]
+    D --> E[回傳當前受測者+當前測試結果]
+    E --> F[渲染所有結果頁面]
 ```
-
----
-
-### edgeGUI登入：
-
-Note: 可以部份沿用WebUI使用者登入
-
-```mermaid
-sequenceDiagram
-    participant UserPage
-    participant WebUI
-    participant Agent
-    participant DB
-    participant Analysis
-    participant FS
-		participant edgeGUI
-    edgeGUI->> FS:登入請求
-    FS->> Agent:要求登入請求連結
-		Agent->> WebUI:/login/edge/UUID 建立登陸請求頁面
-    Agent->> FS:回傳登入請求連結
-    FS->> edgeGUI:回傳登入請求連結
-    edgeGUI->> edgeGUI:建立QRcode
-    edgeGUI->> edgeGUI:渲染QRcode
-    edgeGUI->> UserPage:使用者掃描QRcode
-
-    WebUI->> UserPage: /login/edge/UUID 使用者登入
-		WebUI->> WebUI: 確認使用者帳號候登入
-		WebUI->> Agent: 使用者資料請求
-		Agent->> DB: 使用者資訊請求
-		DB->> Agent: 回傳使用者資訊(send data)
-		Agent->> WebUI: 回傳使用者資料(send data)
-		Agent->> FS: 回傳使用者資料(send data)
-		FS->> edgeGUI: 回傳使用者資料(send data)
-    edgeGUI->> edgeGUI:渲染主頁面
-    WebUI->> UserPage: /{{user_id}}/edge 使用者登入裝置主頁面
-		WebUI->> Agent: 使用者登入log
-		Agent->> DB: 儲存使用者登入log
-		
-
-```
-
----
-
-### edgeGUI結果查詢：
-
-Note: 可以部份沿用WebUI使用者登入
-
-```mermaid
-sequenceDiagram
-    participant UserPage
-    participant WebUI
-    participant Agent
-    participant DB
-    participant Analysis
-    participant FS
-		participant edgeGUI
-    edgeGUI->> edgeGUI:點選結果查詢
-    edgeGUI->> edgeGUI:確認有無登入帳號 (無則[edgeGUI登入])
-    edgeGUI->> FS:所有本機紀錄結果請求		
-    FS->> Agent:所有本機紀錄結果請求
-    Agent->> DB:所有本機紀錄結果請求
-    DB->> Agent:回傳本機紀錄結果請求
-    Agent->> FS:回傳本機紀錄結果請求
-    FS->> edgeGUI:回傳本機紀錄結果請求
-
-```
-
----
-
-### edgeGUI開始實驗：
-
-link:
-
-- [edgeGUI登入：](https://www.notion.so/edgeGUI-0d1772ae04554b73890852595d6088c6?pvs=21)
-
-```mermaid
-sequenceDiagram
-    participant Server
-		participant edgeGUI
-		participant DoEx
-    edgeGUI->> edgeGUI:點選開始測試
-    edgeGUI->> edgeGUI:確認有無登入帳號 (無則[edgeGUI登入])
-    edgeGUI->> edgeGUI:點選受測者
-    edgeGUI->> edgeGUI:測試參數選擇 (會有buttom)
-    edgeGUI->> DoEx:調度實驗用py 
-    DoEx->> DoEx: 執行實驗用py main.py
-    DoEx->> Server: 打包完傳遞至Server
-```
-
-```mermaid
-sequenceDiagram
-    participant UserPage
-    participant WebUI
-    participant Agent
-    participant DB
-    participant Analysis
-    participant FS
-		participant edgeGUI
-    DoEx->> FS: 通知已完成
-    FS->> Agent: 要求儲存位置
-    Agent->> DB: 建立儲存位置
-    Agent->> FS: 回傳儲存位置
-    FS->> FS: 建立具體儲存位置
-    DoEx->> FS: 打包完傳遞至Server
-    FS->> Agent: 通知已儲存+解析json結果
-    Agent->> Analysis: 執行分析R語言，儲存位置請求
-    Analysis->> FS: 獲得被分析檔案
-    Analysis->> Agent: 執行完畢，儲存並通知
-    Agent->> DB: 解析json結果並儲存
-    Agent->> WebUI: json結果 websocket通知
-    Agent->> edgeGUI: json結果 websocket通知
-```
-
