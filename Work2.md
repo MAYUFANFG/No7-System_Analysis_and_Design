@@ -333,7 +333,4 @@ sequenceDiagram
     受測者管理-CRUD：受測者管理管理(包含查詢，編輯，刪除，創造)
 # 使用案例圖
 ![Alt text](image-1.png)
-# Figma (圖片可連結至fimga)
-![UI](UI1.png)
-![UI](UI2.png)
-![UI](UI3.png)
+
